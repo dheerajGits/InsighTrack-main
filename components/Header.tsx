@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { UserCircleIcon } from "@heroicons/react/16/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import Profile from "./Profile";
 const headerRoutes: { name: string; path: string }[] = [
   { name: "Users", path: "/users" },
   { name: "Events", path: "/events" },
@@ -35,7 +36,7 @@ export default function Header() {
             </button>
           );
         })}{" "}
-        <UserCircleIcon className="w-10 hover:cursor-pointer" />
+        <Profile />{" "}
       </div>
     </div>
   );
