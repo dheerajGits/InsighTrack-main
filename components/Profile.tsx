@@ -68,7 +68,7 @@ export default function Profile() {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="absolute bg-[#6a6969] bg-opacity-10 rounded-lg border border-[#b6b4b4] top-12 right-0 flex flex-col justify-start p-2">
+          <MenuItems className="absolute bg-[#3d3c3c]  rounded-lg border border-[#b6b4b4] top-12 right-0 flex flex-col justify-start p-2">
             {options.map((route, index) => {
               return (
                 <MenuItem key={index}>
