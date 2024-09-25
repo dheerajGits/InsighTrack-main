@@ -7,23 +7,26 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 const options = [
-  { name: "Profile", href: "/profile" },
-  { name: "Event Triggered Webhooks", href: "/webhooks" },
-  { name: "Plans", href: "/Plans" },
-  { name: "Contact-us", href: "/contact-us" },
+  { name: "Joined At", hash: "joinedAt" },
+  { name: "Last Active", hash: "last_active" },
+  { name: "Filter By Events", hash: "filter_by_event" },
 ];
 
 export default function UserFilterMenu({
-  show,
-  setShow,
+  filter,
+  setJoinedFilter,
+  setFilter,
 }: {
-  show: boolean;
-  setShow: any;
+  filter: any;
+  setJoinedFilter: React.Dispatch<boolean>;
+  setFilter: React.Dispatch<any>;
 }) {
-  const menuRef = useRef(null);
+  const menuRef = useRef<any | undefined>(null);
+  const [show, setShow] = useState(false);
   const handleClickOutside = (event: any) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setShow(false);
@@ -42,8 +45,50 @@ export default function UserFilterMenu({
     };
   }, [show]);
 
+  const addFilter = (name: string) => {
+    let isPresent = false;
+    filter.map((element: any) => {
+      if (element.name && element.name == name) isPresent = true;
+    });
+    if (isPresent) {
+      setShow(false);
+      return;
+    } else {
+      if (name == "joinedAt") {
+        const newFilter = [
+          ...filter,
+          {
+            name: "joinedAt",
+            startDateTime: dayjs(),
+            endDateTime: dayjs().add(7, "day"), // inittal date added which is editable
+          },
+        ];
+        setFilter(newFilter);
+        setJoinedFilter(true);
+      } else if (name == "filter_by_event") {
+        const newFilter = [
+          ...filter,
+          {
+            name: "event", // we will add event after this initial selection
+          },
+        ];
+        setFilter(newFilter);
+      } else {
+        const newFilter = [
+          ...filter,
+          {
+            name: "lastSeen",
+            startDateTime: dayjs(),
+            endDateTime: dayjs().add(7, "day"), // initial date added which is editable
+          },
+        ];
+        setFilter(newFilter);
+      }
+    }
+    setShow(false);
+  };
+
   const router = useRouter();
-  console.log(show);
   return (
     <Menu as={"div"} className="relative" ref={menuRef}>
       <MenuButton
@@ -67,36 +112,20 @@ export default function UserFilterMenu({
         leaveTo="transform opacity-0 scale-95"
       >
         <MenuItems className="absolute bg-[#3d3c3c]  rounded-lg border border-[#b6b4b4] top-12 left-10 flex flex-col justify-start p-2">
-          <MenuItem>
-            <p
-              className=" hover:bg-[#6e5e9b]/90 text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
-              onClick={() => {
-                setShow(false);
-              }}
-            >
-              Joined At
-            </p>
-          </MenuItem>
-          <MenuItem>
-            <p
-              className=" hover:bg-[#6e5e9b]/90 text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
-              onClick={() => {
-                setShow(false);
-              }}
-            >
-              Last Active
-            </p>
-          </MenuItem>
-          <MenuItem>
-            <p
-              className=" hover:bg-[#6e5e9b]/90 text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
-              onClick={() => {
-                setShow(false);
-              }}
-            >
-              Filter By Event
-            </p>
-          </MenuItem>{" "}
+          {options.map((option: { name: string; hash: string }) => {
+            return (
+              <MenuItem>
+                <p
+                  className=" hover:bg-[#6e5e9b]/90 text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
+                  onClick={() => {
+                    addFilter(option.hash);
+                  }}
+                >
+                  {option.name}
+                </p>
+              </MenuItem>
+            );
+          })}
         </MenuItems>
       </Transition>
     </Menu>

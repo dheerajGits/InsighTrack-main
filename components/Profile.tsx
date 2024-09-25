@@ -22,7 +22,7 @@ const options = [
 export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const menuRef = useRef(null);
+  const menuRef = useRef<any | undefined>(null);
   const handleClickOutside = (event: any) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsOpen(false);

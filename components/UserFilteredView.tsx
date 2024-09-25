@@ -2,9 +2,11 @@
 import { FunnelIcon } from "@heroicons/react/16/solid";
 import React, { useState } from "react";
 import UserFilterMenu from "./UserFilterMenu";
+import UserJoinedFilter from "./UserJoinedFilter";
 
 export default function UserFilteredView({ users }: { users: any }) {
-  const [isMenuOpen, setisMenuOpen] = useState(false);
+  const [filter, setFilter] = useState<any>([]);
+  const [joinFilterShow, setJoinedFilterShow] = useState<boolean>(false);
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between mb-2 select-none">
@@ -28,7 +30,21 @@ export default function UserFilteredView({ users }: { users: any }) {
         <p className="text-gray-500 font-mono text-sm p-2 font-semibold">
           All Users
         </p>
-        <UserFilterMenu show={isMenuOpen} setShow={setisMenuOpen} />
+        <div className="p-2">
+          {joinFilterShow && (
+            <UserJoinedFilter
+              setFilter={setFilter}
+              filter={filter}
+              setFilterShow={setJoinedFilterShow}
+              onClick={() => {}}
+            />
+          )}
+        </div>
+        <UserFilterMenu
+          setJoinedFilter={setJoinedFilterShow}
+          filter={filter}
+          setFilter={setFilter}
+        />
       </div>
     </div>
   );
