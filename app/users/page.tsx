@@ -9,6 +9,7 @@ const getUserData = async () => {};
 async function User() {
   //   const router = useRouter();
   const user = await getUserData();
+  console.log(process.env.MAIN_API_URL);
   return (
     <main className="flex flex-col  px-20 py-5">
       <p className="text-2xl font-bold mb-8">Users</p>

@@ -1,21 +1,17 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import UserFilterType from "./UserFilterType";
-type Inputs = {
-  startDateTime: Date;
-  endDateTime: Date;
-};
+import { TrashIcon } from "@heroicons/react/24/outline";
 
-export default function UserJoinedFilter({
-  setFilterShow,
-  filter,
+export default function LastActiveUserFilter({
   setFilter,
+  filter,
+  setFilterShow,
 }: {
-  setFilterShow: React.Dispatch<boolean>;
   setFilter: React.Dispatch<any>;
   filter: any;
+  setFilterShow: React.Dispatch<boolean>;
 }) {
   const {
     register,
@@ -25,7 +21,7 @@ export default function UserJoinedFilter({
   const removeFilter = () => {
     let newFilter: any = [];
     filter.forEach((element: any) => {
-      if (element.name != "joinedAt") {
+      if (element.name != "lastSeen") {
         newFilter.push(element);
       }
     });
@@ -36,7 +32,7 @@ export default function UserJoinedFilter({
     let newFilter: any = [];
     console.log(data);
     filter.forEach((element: any) => {
-      if (element.name == "joinedAt") {
+      if (element.name == "lastSeen") {
         element.startDateTime = new Date(data.startDateTime);
         element.endDateTime = new Date(data.endDateTime);
         newFilter.push(element);
@@ -46,10 +42,15 @@ export default function UserJoinedFilter({
     });
     setFilter(newFilter);
   };
+
   return (
-    <div className="flex flex-row items-center gap-3 px-5">
-      <p className="text-gray-400 text-sm ">where</p>
-      <UserFilterType name="Joined At" type="calendar" />
+    <div
+      className={`flex flex-row items-center gap-3 ${
+        filter.length > 1 ? "px-10" : "px-5"
+      }`}
+    >
+      <p className="text-gray-400 text-sm ">who</p>
+      <UserFilterType name="Last Active" type="calendar" />
       <div className="flex flex-row items-center justify-center gap-10 p-1">
         <form
           onSubmit={handleSubmit(onSubmit)}

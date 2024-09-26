@@ -1,12 +1,35 @@
 "use client";
 import { FunnelIcon } from "@heroicons/react/16/solid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserFilterMenu from "./UserFilterMenu";
 import UserJoinedFilter from "./UserJoinedFilter";
+import LastActiveUserFilter from "./LastActiveUserFilter";
+import axios from "axios";
 
 export default function UserFilteredView({ users }: { users: any }) {
   const [filter, setFilter] = useState<any>([]);
   const [joinFilterShow, setJoinedFilterShow] = useState<boolean>(false);
+  const [lastSeenFilterShow, setLastSeenFilterShow] = useState<boolean>(false);
+  const fetchUsers = async () => {
+    if (filter) {
+      try {
+        if (filter) {
+          const users = await axios.get(`${"http://localhost:3030"}/users`, {
+            params: {
+              filter: JSON.stringify(filter),
+            },
+          });
+        }
+      } catch (e) {
+        console.error("Error in fetching users with filter");
+      }
+    }
+  };
+  useEffect(() => {
+    console.log("hii");
+    fetchUsers();
+  }, [filter]);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between mb-2 select-none">
@@ -26,22 +49,27 @@ export default function UserFilteredView({ users }: { users: any }) {
           </button>
         </div>
       </div>
-      <div className="w-full min-h-20 border-[0.5px] border-gray-600 rounded-md flex flex-col">
+      <div className="w-full min-h-20 border-[0.5px] border-gray-600 rounded-md flex flex-col gap-2">
         <p className="text-gray-500 font-mono text-sm p-2 font-semibold">
           All Users
         </p>
-        <div className="p-2">
-          {joinFilterShow && (
-            <UserJoinedFilter
-              setFilter={setFilter}
-              filter={filter}
-              setFilterShow={setJoinedFilterShow}
-              onClick={() => {}}
-            />
-          )}
-        </div>
+        {joinFilterShow && (
+          <UserJoinedFilter
+            setFilter={setFilter}
+            filter={filter}
+            setFilterShow={setJoinedFilterShow}
+          />
+        )}
+        {lastSeenFilterShow && (
+          <LastActiveUserFilter
+            setFilter={setFilter}
+            filter={filter}
+            setFilterShow={setLastSeenFilterShow}
+          />
+        )}
         <UserFilterMenu
           setJoinedFilter={setJoinedFilterShow}
+          setLastSeenFilterShow={setLastSeenFilterShow}
           filter={filter}
           setFilter={setFilter}
         />

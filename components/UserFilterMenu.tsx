@@ -19,10 +19,12 @@ const options = [
 export default function UserFilterMenu({
   filter,
   setJoinedFilter,
+  setLastSeenFilterShow,
   setFilter,
 }: {
   filter: any;
   setJoinedFilter: React.Dispatch<boolean>;
+  setLastSeenFilterShow: React.Dispatch<boolean>;
   setFilter: React.Dispatch<any>;
 }) {
   const menuRef = useRef<any | undefined>(null);
@@ -83,6 +85,7 @@ export default function UserFilterMenu({
           },
         ];
         setFilter(newFilter);
+        setLastSeenFilterShow(true);
       }
     }
     setShow(false);
@@ -116,7 +119,7 @@ export default function UserFilterMenu({
             return (
               <MenuItem>
                 <p
-                  className=" hover:bg-[#6e5e9b]/90 text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
+                  className=" hover:bg-[#6e5e9b]/90 hover:cursor-pointer text-white  py-2 rounded-lg pl-2 w-60 transition duration-200 ease-in-out"
                   onClick={() => {
                     addFilter(option.hash);
                   }}
