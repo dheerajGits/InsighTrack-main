@@ -5,6 +5,7 @@ import UserFilterMenu from "./UserFilterMenu";
 import UserJoinedFilter from "./UserJoinedFilter";
 import LastActiveUserFilter from "./LastActiveUserFilter";
 import axios from "axios";
+import UsersTable from "./UsersTable";
 
 export default function UserFilteredView({ users }: { users: any }) {
   const [filter, setFilter] = useState<any>([]);
@@ -74,6 +75,7 @@ export default function UserFilteredView({ users }: { users: any }) {
           setFilter={setFilter}
         />
       </div>
+      <UsersTable users={null} />
     </div>
   );
 }
