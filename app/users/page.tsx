@@ -1,8 +1,8 @@
 // "use client";
-import NavigationButton from "@/components/NavigationButton";
+import NavigationButton from "@/components/userComponents/NavigationButton";
 import React from "react";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import UserFilteredView from "@/components/UserFilteredView";
+import UserFilteredView from "@/components/userComponents/UserFilteredView";
 import axios from "axios";
 
 const getUserData = async () => {

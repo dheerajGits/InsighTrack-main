@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MdDragIndicator } from "react-icons/md";
-import { usersData } from "../app/utils/userData";
+import { usersData } from "../../app/utils/userData";
 
 // Initial column and row data
 type column = {
