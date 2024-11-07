@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import { MdDragIndicator } from "react-icons/md";
+import { usersData } from "../app/utils/userData";
 
 // Initial column and row data
 type column = {
   id: string;
   label: string;
 };
+
 const initialColumns: column[] = [
   { id: "name", label: "Name" },
   { id: "distinct_id", label: "Distinct Id" },
@@ -16,7 +18,7 @@ const initialColumns: column[] = [
   { id: "raw_data", label: "Raw Data" },
 ];
 
-const DraggableTable = (users: any) => {
+export default function DraggableTable({ users }: { users: any }) {
   const [columns, setColumns] =
     useState<{ id: string; label: string }[]>(initialColumns);
   const [draggedColumnIndex, setDraggedColumnIndex] = useState<any>();
@@ -46,16 +48,17 @@ const DraggableTable = (users: any) => {
     setColumns(updatedColumns);
     setDraggedColumnIndex(null); // Reset dragged index after dropping
   };
+
   return (
     <table className="border-1">
-      <thead>
+      <thead className="rounded-lg">
         <tr className=" bg-[#3c3c3c]">
           {columns.map((column, index) => (
             <th
               key={column.id}
               onDragOver={handleDragOver}
               onDrop={() => handleDrop(index)}
-              className="p-2 relative  rounded-l-xl "
+              className="p-2 relative"
             >
               {/* Column Label */}
               <p className="max-w-20">{column.label}</p>
@@ -72,18 +75,21 @@ const DraggableTable = (users: any) => {
         </tr>
       </thead>
       <tbody className="mt-2">
-        {users.map((row: any, rowIndex: number) => (
-          <tr key={rowIndex} className="hover:bg-gray-700 rounded-lg">
-            {columns.map((column: { id: string; label: string }) => (
-              <td key={column.id} className="pl-4 py-2">
-                {row[column.id]}
-              </td>
-            ))}
-          </tr>
-        ))}
+        {(users.length > 0 ? users : usersData).map(
+          (row: any, rowIndex: number) => (
+            <tr key={rowIndex} className="hover:bg-gray-700 rounded-lg">
+              {columns.map((column: { id: string; label: string }) => (
+                <td
+                  key={column.id}
+                  className="pl-4 py-2 border-r-2 border-gray-600"
+                >
+                  {row[column.id]}
+                </td>
+              ))}
+            </tr>
+          )
+        )}
       </tbody>
     </table>
   );
-};
-
-export default DraggableTable;
+}

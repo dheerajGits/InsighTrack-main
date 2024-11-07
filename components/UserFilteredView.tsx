@@ -75,7 +75,7 @@ export default function UserFilteredView({ users }: { users: any }) {
           setFilter={setFilter}
         />
       </div>
-      <UsersTable users={null} />
+      <UsersTable users={[]} />
     </div>
   );
 }
